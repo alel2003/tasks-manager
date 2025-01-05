@@ -1,0 +1,58 @@
+services:
+  web:
+    container_name: task_api
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: "./run_in_prod.sh" #"tail -f /dev/null" 
+    env_file:
+      - ./.env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/var/www/app
+    depends_on:
+      - db
+      # - redis
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - app_network
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  db:
+    container_name: task_db
+    image: postgres:15.0-alpine
+    environment:
+      POSTGRES_USER: ${USER_DB}
+      POSTGRES_PASSWORD: ${PASSWORD_DB}
+      POSTGRES_DB: ${NAME_DB}
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  # redis:
+  #   image: redis:alpine
+  #   container_name: middle_cache
+  #   restart: on-failure
+  #   ports:
+  #     - '6379:6379'
+  #   command:
+  #     - redis-server
+  #     - '--requirepass redis'
+  #   volumes:
+  #     - cache:/data
+  #   networks:
+  #     - app_network
+
+volumes:
+  db_data:
+  # cache:
+
+networks:
+  app_network:
+    driver: bridge
