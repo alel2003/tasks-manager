@@ -1,6 +1,6 @@
 # 🌟 Task-API
 
-**Task-API is a RESTful API built for managing tasks and records. This project is developed using Django, Django REST Framework (DRF), Docker, and PostgreSQL as the database.
+Task-API is a RESTful API built for managing tasks and records. This project is developed using Django, Django REST Framework (DRF), Docker, and PostgreSQL as the database.
 
 ## 🚀 Quick Start Guide
 
