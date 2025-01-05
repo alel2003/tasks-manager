@@ -4,7 +4,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    command: "./run_in_prod.sh" #"tail -f /dev/null" 
+    command: "./run_in_prod.sh"
     env_file:
       - ./.env
     ports:
@@ -13,7 +13,6 @@ services:
       - ./:/var/www/app
     depends_on:
       - db
-      # - redis
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:
@@ -35,23 +34,8 @@ services:
     networks:
       - app_network
 
-  # redis:
-  #   image: redis:alpine
-  #   container_name: middle_cache
-  #   restart: on-failure
-  #   ports:
-  #     - '6379:6379'
-  #   command:
-  #     - redis-server
-  #     - '--requirepass redis'
-  #   volumes:
-  #     - cache:/data
-  #   networks:
-  #     - app_network
-
 volumes:
   db_data:
-  # cache:
 
 networks:
   app_network:
